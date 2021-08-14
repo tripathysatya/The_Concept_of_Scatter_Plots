@@ -1,0 +1,206 @@
+===========================================================
+Line Plots
+Bar Charts
+Pie Charts
+Histograms
+
+Scatter Plots:
+--------------
+Scatter plots are glorious. Of all the major chart types the most powerful and most commonly used charts are scatter plots.
+
+These are very similar to line plots. The terminology like x-axis,y-axis,data points etc are exactly same.
+
+Scatter plots are very helpful to represent the relation between two variables.
+
+location and covid cases
+
+
+scatter() function
+Syntax:
+-------
+scatter(x, y, s=None, c=None, marker=None, cmap=None, norm=None, vmin=None, vmax=None, alpha=None, linewidths=None, *, edgecolors=None, plotnonfinite=False, data=None, **kwargs)
+    A scatter plot of *y* vs. *x* with varying marker size and/or color.
+
+
+
+eg-1: (To get basic idea)
+-------------------------
+import matplotlib.pyplot as plt
+import numpy as np
+x = [1,4,3,2,6,1,3,4,4,6]
+y = [10,40,30,20,60,15,35,45,47,65] 
+plt.scatter(x,y) #data points:(1,10),(4,40),(3,30),(2,20),(6,60),(1,15),(3,35)..
+#xlabel,ylabel,title,grid,xticks,yticks,xlim,ylim,legend...
+plt.show()
+
+
+eg-2: Month wise covid cases in a particular state
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.arange(1,13)
+y = np.array([120,340,670,1300,3500,7600,6000,4500,3890,1990,980,545])
+plt.scatter(x,y)
+plt.show()
+
+How to change color of the marker:
+---------------------------------
+By using color argument.
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.arange(1,13)
+y = np.array([120,340,670,1300,3500,7600,6000,4500,3890,1990,980,545])
+plt.scatter(x,y,color='red')
+plt.show()
+
+Different colors for markers:
+-----------------------------
+We have to use keyword argument color
+
+import matplotlib.pyplot as plt
+import numpy as np
+x = [10,40,30,20]
+y = [2,3,2,7]
+colors = ['red','blue','orange','green']
+plt.scatter(x,y,color=colors)
+plt.show()
+
+Changing the size of the marker:
+--------------------------------
+We have to use keyword argument: s
+
+import matplotlib.pyplot as plt
+import numpy as np
+x = [10,40,30,20]
+y = [2,3,2,7]
+colors = ['red','blue','orange','green']
+plt.scatter(x,y,color=colors,s=300)
+plt.show()
+
+Different sizes for the markers:
+--------------------------------
+import matplotlib.pyplot as plt
+import numpy as np
+x = [10,40,30,20]
+y = [2,3,2,7]
+colors = ['red','blue','orange','green']
+sizes = [100,200,300,400]
+plt.scatter(x,y,color=colors,s=sizes)
+plt.show()
+
+ColorMap:
+--------
+colormap maps colors to numbers. If huge number of colors are required, then we should go for colormap.
+matplotlib defines several predefined colormaps.
+The default colormap is:'viridis', where 0 represents purple color and 100 represents yellow color.
+
+https://matplotlib.org/stable/tutorials/colors/colormaps.html
+
+To use colormap, we have to use cmap keyword argument.
+To display colorbar also
+plt.colorbar()
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.random.randint(1,101,size=(100))
+y = np.random.randint(1,101,size=(100))
+sizes = 5*np.random.randint(1,101,size=(100))
+colors = np.random.randint(1,100,100)
+print(colors)
+plt.scatter(x,y,s=sizes,c=colors,cmap='prism')
+plt.colorbar()
+plt.show()
+
+
+Note: Whenever we are using cmap then to specify colors we have to use keyword argument c but not color.
+
+plt.scatter(x,y,s=sizes,color=colors,cmap='prism') --->invalid
+ValueError: 'color' kwarg must be an color or sequence of color specs.  For a sequence of values to be color-mapped, use the 'c' argument instead.
+
+plt.scatter(x,y,s=sizes,c=colors,cmap='prism') --->valid
+
+plt.scatter(x,y,s=sizes,c='r')--->valid
+
+Line plot vs scatter plot:
+--------------------------
+In the case of lineplot, all markers should have same size and same color. But in scatter plot, markers can have different sizes and different colors also.
+
+line plot is used to represent continous trends, scatter plot is for just marking multiple values and values need not be continuous.
+
+How to add labels to scatter plot data points:
+---------------------------------------------
+2 ways
+plt.annotate(text,(x,y))
+plt.text(x,y,text)
+
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.arange(1,6) #1 to 5
+y = x ** 2 #1,4,9,16,25
+labels = ['Label-A','Label-B','Label-C','Label-D','Label-E']
+plt.scatter(x,y,s=300,c=[0,100,200,300,400],cmap='prism')
+for i, label in enumerate(labels):
+	#plt.text(x[i]+0.2,y[i],label)
+	plt.annotate(label,(x[i]+0.2,y[i]))
+plt.show()
+
+How to add color legend to the scatter plot:
+--------------------------------------------
+import matplotlib.pyplot as plt
+import numpy as np
+names = ['Sunny','Bunny','Chinny','Vinny','Pinny']
+marks = [700,300,600,400,100]
+x = np.arange(len(names))  #[0,1,2,3,4]
+y = x 
+scat = plt.scatter(x,y,s = marks,c=x,cmap='prism')
+plt.legend(handles = scat.legend_elements()[0],labels = names)
+plt.show()
+
+
+Note:
+plt.scatter() returns matplotlib.collections.PathCollection object.
+To get markers of scatter plot, we have to use legend_elements()[0] on the PathCollection object.
+
+import matplotlib.pyplot as plt
+import numpy as np
+names = ['Sunny','Bunny','Chinny','Vinny','Pinny']
+marks = [700,300,600,400,100]
+x = np.arange(len(names))  #[0,1,2,3,4]
+y = x 
+scat = plt.scatter(x,y,s = marks,c=x,cmap='prism')
+print(scat)
+print(scat.legend_elements()[0])
+
+
+D:\durgaclasses>py test.py
+<matplotlib.collections.PathCollection object at 0x000001EC548C0FD0>
+[<matplotlib.lines.Line2D object at 0x000001EC568E73D0>, <matplotlib.lines.Line2D object at 0x000001EC568E7580>, <matplotlib.lines.Line2D object at 0x000001EC568E76A0>, <matplotlib.lines.Line2D object at 0x000001EC568E77C0>, <matplotlib.lines.Line2D object at 0x000001EC568E78E0>]
+
+Kaggle Case Study:
+------------------
+Latest Covid-19 India Statewise Data
+
+https://www.kaggle.com/anandhuh/latest-covid19-india-statewise-data
+
+scatter plot statewise total number of cases and labels also must be required.
+
+import matplotlib.pyplot as plt
+import numpy as np
+import csv
+state_names = []
+total_cases = np.array([],dtype=int)
+f = open('Latest Covid-19 India Status.csv','r',encoding='utf-8')
+r = csv.reader(f) #returns csvreader object
+h = next(r) # read header column and ignore
+for row in r:
+	state_names.append(row[0])
+	total_cases = np.append(total_cases,int(row[1]))
+x = np.arange(5)
+y=x
+plt.scatter(x,y,s = total_cases[:5]/10000,c=x,cmap='prism')
+for i,label in enumerate(state_names[:5]):
+	plt.text(x[i],y[i]+0.15,f'{label}({total_cases[i]})',ha='center')
